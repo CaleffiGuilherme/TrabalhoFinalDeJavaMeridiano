@@ -1,6 +1,8 @@
 package model.player;
 
-public abstract class Personagem {
+import model.Atacavel;
+
+public abstract class Personagem implements Atacavel {
         protected String nome;
         protected int vidaAtual;
         protected int vidaMaxima;
@@ -19,21 +21,26 @@ public abstract class Personagem {
                 this.esquiva = esquiva;
                 this.precisao = precisao;
                 this.arma = arma;
-
         }
 
-        public void atacar(Personagem inimigo){
-                int dano = this.ataque - inimigo.getDefesa();
+        // Mudei para override para seguir o padrão de inimigo
+        @Override
+        public void atacar(Atacavel alvo) {
+                int dano = this.ataque - alvo.getDefesa();
                 if (dano < 0) dano = 0;
-                inimigo.receberDano(dano);
-                System.out.println(this.nome + " atacou " + inimigo.getNome() + " inferindo " + dano + " de dano.");
+                alvo.receberDano(dano);
+                System.out.println(this.nome + " atacou " + alvo.getNome() + " de dano.");
         }
 
+        @Override
         public void receberDano(int dano) {
                 this.vidaAtual -= dano;
                 if(this.vidaAtual <= 0) vidaAtual = 0;
+                System.out.println(this.nome + " recebeu " + dano + " de dano. Vida restante: " + this.vidaAtual);
         }
 
+        @Override
         public String getNome() { return nome; }
+        @Override
         public int getDefesa() { return defesa; }
 }

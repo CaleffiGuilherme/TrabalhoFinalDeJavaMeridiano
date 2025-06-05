@@ -1,4 +1,11 @@
 package model;
 
-public class Atacavel {
+public interface Atacavel {
+    void atacar(Atacavel inimigo);
+
+    void receberDano(int dado);
+    String getNome();
+    int getDefesa();
+
+
 }
