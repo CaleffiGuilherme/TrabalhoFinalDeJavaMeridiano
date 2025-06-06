@@ -1,5 +1,6 @@
 package model.player;
 
+import model.Arma;
 import model.Atacavel;
 
 public class Cowboy extends Personagem {
@@ -11,7 +12,7 @@ public class Cowboy extends Personagem {
         this.defesa = 15;
         this.esquiva = 35;
         this.precisao = 60;
-        this.arma = "Revolver de Vaqueiro";
+        this.arma = new Arma("Revolver de Vaqueiro", 5, 10);
 
         this.habilidades[0] = "Disparo Rápido";
         this.habilidades[1] = "Tiro Duplo";

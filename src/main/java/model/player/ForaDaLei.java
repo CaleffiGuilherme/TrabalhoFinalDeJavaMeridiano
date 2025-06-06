@@ -1,6 +1,7 @@
 package model.player;
 
 import model.Atacavel;
+import model.Arma;
 
 public class ForaDaLei extends Personagem {
     public ForaDaLei(String nome) {
@@ -11,8 +12,7 @@ public class ForaDaLei extends Personagem {
         this.defesa = 10;
         this.esquiva = 25;
         this.precisao = 80;
-        this.arma = "Escopeta de Cano Duplo";
-
+        this.arma = new Arma ("Escopeta de Cano Duplo", 10, 5);
         this.habilidades[0] = "Chuva de Disparos";
         this.habilidades[1] = "Explosoão de chumbo";
         this.habilidades[2] = "Tiro mortal";

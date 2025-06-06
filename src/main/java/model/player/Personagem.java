@@ -1,5 +1,6 @@
 package model.player;
 
+import model.Arma;
 import model.Atacavel;
 import model.Habilidade;
 
@@ -11,7 +12,7 @@ public abstract class Personagem implements Atacavel, Habilidade {
         protected int defesa;
         protected int esquiva;
         protected int precisao;
-        protected String arma;
+        protected Arma arma;
 
         protected String[] habilidades = new String[3];
 
@@ -73,10 +74,26 @@ public abstract class Personagem implements Atacavel, Habilidade {
         public int getAtaque() { return ataque; }
         public int getEsquiva() { return esquiva; }
         public int getPrecisao() { return precisao; }
-        public String getArma() { return arma; }
+        public Arma getArma() { return arma; }
         @Override
         public int getDefesa() { return defesa; }
         public String[] getHabilidades(){return habilidades;}
 
         // Setters
+
+        public void setNome(String nome) {this.nome = nome; }
+
+        public void setVidaMaxima(int vidaMaxima) { this.vidaMaxima = vidaMaxima; }
+
+        public void setAtaque(int ataque) { this.ataque = ataque; }
+
+        public void setDefesa(int defesa) { this.defesa = defesa; }
+
+        public void setEsquiva(int esquiva) { this.esquiva = esquiva; }
+
+        public void setPrecisao(int precisao) { this.precisao = precisao; }
+
+        public void setHabilidades(String[] habilidades) { this.habilidades = habilidades; }
+
+        public void setArma(Arma arma){this.arma = arma;}
 }
