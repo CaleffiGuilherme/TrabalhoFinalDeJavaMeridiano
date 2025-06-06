@@ -1,9 +1,9 @@
 package model.inimigo;
 
 import model.Atacavel;
-import model.player.Personagem;
+import model.Habilidade;
 
-public class Inimigo implements Atacavel {
+public abstract class Inimigo implements Atacavel, Habilidade {
     protected String nome;
     protected int vidaAtual;
     protected int vidaMaxima;
@@ -11,6 +11,10 @@ public class Inimigo implements Atacavel {
     protected int defesa;
     protected int precisao;
     protected String arma;
+
+    protected String[] habilidades = new  String[3];
+    protected String habilidadeEspecial = "";
+
 
     public Inimigo(String nome, int vidaAtual, int vidaMaxima, int ataque, int defesa, int precisao, String arma) {
         this.nome = nome;
@@ -35,11 +39,32 @@ public class Inimigo implements Atacavel {
     public void receberDano(int dano) {
         this.vidaAtual -= dano;
         if(this.vidaAtual <= 0) vidaAtual = 0;
-   }
+        System.out.println(this.nome + " recebeu " + dano + " de dano. Vida restante: " + this.vidaAtual);
+    }
+
+    public void usarHabilidade1(Atacavel alvo) {
+        System.out.println(this.nome + " tenta usar " + (habilidades[0] != null ? habilidades[0] : "Habilidade1") + "!");
+        atacar(alvo);
+    }
+
+    public void usarHabilidade2(Atacavel alvo) {
+        System.out.println(this.nome + " tenta usar " + (habilidades[1] != null ? habilidades[1] : "Habilidade2") + "!");
+        atacar(alvo);
+    }
+
+    public void usarHabilidade3(Atacavel alvo) {
+        System.out.println(this.nome + " tenta usar " + (habilidades[2] != null ? habilidades[2] : "Habilidade3") + "!");
+        atacar(alvo);
+    }
+
+
 
     @Override
     public String getNome() { return nome; }
     @Override
     public int getDefesa() { return defesa; }
+    public int getVidaAtual() { return vidaAtual; }
+    @Override
+    public int getPrecisao() {return precisao;}
 
 }

@@ -1,8 +1,9 @@
 package model.player;
 
 import model.Atacavel;
+import model.Habilidade;
 
-public abstract class Personagem implements Atacavel {
+public abstract class Personagem implements Atacavel, Habilidade {
         protected String nome;
         protected int vidaAtual;
         protected int vidaMaxima;
@@ -12,24 +13,24 @@ public abstract class Personagem implements Atacavel {
         protected int precisao;
         protected String arma;
 
-        public Personagem(String nome, int vidaAtual, int vidaMaxima, int ataque, int defesa, int esquiva, int precisao, String arma) {
+        protected String[] habilidades = new String[3];
+
+        public Personagem(String nome) {
                 this.nome = nome;
-                this.vidaAtual = vidaAtual;
-                this.vidaMaxima = vidaMaxima;
-                this.ataque = ataque;
-                this.defesa = defesa;
-                this.esquiva = esquiva;
-                this.precisao = precisao;
-                this.arma = arma;
         }
 
         // Mudei para override para seguir o padrão de inimigo
         @Override
         public void atacar(Atacavel alvo) {
-                int dano = this.ataque - alvo.getDefesa();
-                if (dano < 0) dano = 0;
-                alvo.receberDano(dano);
-                System.out.println(this.nome + " atacou " + alvo.getNome() + " de dano.");
+                double chance = Math.random() * 100;
+                // deixa a batalha mais real e adiciona condição de erro
+                if (chance <= this.precisao) {
+                        int dano = this.ataque - alvo.getDefesa();
+                        if(dano < 0) dano = 0;
+                        alvo.receberDano(dano);
+                } else {
+                        System.out.println(this.nome + "errou o ataque!");
+                }
         }
 
         @Override
@@ -39,8 +40,43 @@ public abstract class Personagem implements Atacavel {
                 System.out.println(this.nome + " recebeu " + dano + " de dano. Vida restante: " + this.vidaAtual);
         }
 
+        //Implementação das habilidades
+        @Override
+        public void usarHabilidade1 (Atacavel alvo) {
+                System.out.println(this.nome + " tenta usar " + (habilidades[0] != null ? habilidades[0] : "Habilidade1") + "!");
+                atacar(alvo);
+        }
+
+        @Override
+        public void usarHabilidade2 (Atacavel alvo) {
+                System.out.println(this.nome + " tenta usar " + (habilidades[1] != null ? habilidades[1] : "Habilidade2") + "!");
+                atacar(alvo);
+        }
+
+        @Override
+        public void usarHabilidade3 (Atacavel alvo) {
+                System.out.println(this.nome + " tenta usar " + (habilidades[2] != null ? habilidades[2] : "Habilidade3") + "!");
+                atacar(alvo);
+        }
+
+        @Override
+        public void usarHabilidadeEspecial (Atacavel alvo) {
+                System.out.println(this.nome + " tenta usar habilidade especial!");
+                // vazio, pois, necessita que uma subclasse o reescreva
+        }
+
+        // Getters
         @Override
         public String getNome() { return nome; }
+        public int getVidaAtual() { return vidaAtual; }
+        public int getVidaMaxima() { return vidaMaxima; }
+        public int getAtaque() { return ataque; }
+        public int getEsquiva() { return esquiva; }
+        public int getPrecisao() { return precisao; }
+        public String getArma() { return arma; }
         @Override
         public int getDefesa() { return defesa; }
+        public String[] getHabilidades(){return habilidades;}
+
+        // Setters
 }
