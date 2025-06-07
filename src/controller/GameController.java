@@ -29,4 +29,28 @@ public class GameController {
         }
     }
 
+    public Personagem getPlayer() {
+        return player;
+    }
+
+    public List<Missao> getFases() {
+        return fases;
+    }
+
+    public boolean executarCombate(Inimigo inimigo, int escolha) {
+        switch (escolha) {
+            case 1 -> player.atacar(inimigo);
+            case 2 -> player.usarHabilidade1(inimigo);
+            case 3 -> player.usarHabilidade2(inimigo);
+            case 4 -> player.usarHabilidade3(inimigo);
+            default -> {
+                System.out.println("Ação inválida!");
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+
 }
