@@ -1,4 +1,7 @@
 package model;
 
-public class Efeito {
+public enum Efeito {
+    CURA,
+    AUMENTO_ATAQUE,
+    AUMENTO_DEFESA
 }

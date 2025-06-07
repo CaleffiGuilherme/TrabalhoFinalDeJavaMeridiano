@@ -66,6 +66,19 @@ public abstract class Personagem implements Atacavel, Habilidade {
                 // vazio, pois, necessita que uma subclasse o reescreva
         }
 
+        public void aumentarVida(int valor) {
+                this.vidaAtual += valor;
+                if(this.vidaAtual > this.vidaMaxima) this.vidaAtual = this.vidaMaxima;
+        }
+
+        public void aumentarAtaque(int valor) {
+                this.ataque += valor;
+        }
+
+        public void aumentarDefesa(int valor) {
+                this.defesa += valor;
+        }
+
         // Getters
         @Override
         public String getNome() { return nome; }
