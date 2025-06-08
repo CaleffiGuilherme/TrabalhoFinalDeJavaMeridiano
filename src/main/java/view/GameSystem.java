@@ -17,8 +17,28 @@ public class GameSystem {
         controller = new GameController();
     }
 
+    public void exibirLogo() {
+        System.out.println(" ____  ____  ____  ____  ____  ____  ____  ____  ____ ____  ____  ____  ____  ____  ____  ____  ____  ____ ____  ____  ____  ____  ____  ____  ____  ____  ____ ____ ____");
+        System.out.println();
+        System.out.println("           Seja Bem - vindo ao Faroeste!!!             ");
+        System.out.println();
+        System.out.println("|/\\/\\||/\\/\\||/\\/\\||/\\/\\||/\\/\\||/\\/\\||/\\/| |/\\/\\||/\\/\\||/\\/\\||/\\/\\||/\\/\\||/\\/\\||/\\/| |/\\/\\||/\\/\\||/\\/\\||/\\/\\||/\\/\\||/\\/\\||/\\/| |/\\/\\||/\\/\\||/\\/\\||/\\/\\||/\\/\\||/\\/\\||/\\/|");
+        System.out.println();
+        System.out.println("                 ______                                     ");
+        System.out.println("                |  <>  |                                    ");
+        System.out.println("         _______|______|______                              ");
+        System.out.println("                  |  |                                      ");
+        System.out.println("                  |  |____| |        ____                   ");
+        System.out.println("                  |  |______|     __|____|__                ");
+        System.out.println("            | |___|  |                ||                    ");
+        System.out.println("            |_____|  |             |__||                    ");
+        System.out.println("                  |  |                ||__|                 ");
+        System.out.println("                  |  |                ||                    ");
+        System.out.println();
+    }
+
     public void iniciarJogo() {
-        System.out.println("Bem-vindo ao RPG de Faroeste!");
+        exibirLogo();
         escolherClasse();
 
         List<Missao> fases = controller.getFases();
@@ -32,7 +52,7 @@ public class GameSystem {
                 combate(inimigo);
 
                 if (controller.jogadorDerrotado()) {
-                    System.out.println("\nVocê foi derrotado! Fim de jogo.");
+                    System.out.println("\nQue pena! Você foi derrotado! Fim de jogo.");
                     return;
                 }
             }
