@@ -18,8 +18,14 @@ Trabalho proposto e supervisionado pelo professor da universidade positivo Rapha
 
 # OBJETIVO DO PROJETO
 
+Proporcionar uma experiência simples de RPG com os recursos que aprendemos a usar durante as aulas deste período.
+
 # RODAR O JOGO
+
+Baixar o java, javac na versão 24 e executar pelo terminal de alguma IDE (recomendamos IntelliJ).
 
 # USO DO CHATGPT
 
-# REFERENCIAS E RECURSOS
+O ChatGpt foi usado para nos dar ideias, orientar e auxiliar em partes do código onde estavámos perdidos.
+
+# REFERÊNCIAS E RECURSOS
