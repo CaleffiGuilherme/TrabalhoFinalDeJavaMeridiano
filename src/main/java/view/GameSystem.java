@@ -18,9 +18,10 @@ public class GameSystem {
     }
 
     public void exibirLogo() {
+        // Sua arte ASCII do logo
         System.out.println(" ____  ____  ____  ____  ____  ____  ____  ____  ____ ____  ____  ____  ____  ____  ____  ____  ____  ____ ____  ____  ____  ____  ____  ____  ____  ____  ____ ____ ____");
         System.out.println();
-        System.out.println("           Seja Bem - vindo ao Faroeste!!!             ");
+        System.out.println("           Seja Bem-vindo ao Faroeste!!!             ");
         System.out.println();
         System.out.println("|/\\/\\||/\\/\\||/\\/\\||/\\/\\||/\\/\\||/\\/\\||/\\/| |/\\/\\||/\\/\\||/\\/\\||/\\/\\||/\\/\\||/\\/\\||/\\/| |/\\/\\||/\\/\\||/\\/\\||/\\/\\||/\\/\\||/\\/\\||/\\/| |/\\/\\||/\\/\\||/\\/\\||/\\/\\||/\\/\\||/\\/\\||/\\/|");
         System.out.println();
@@ -28,39 +29,63 @@ public class GameSystem {
         System.out.println("                |  <>  |                                    ");
         System.out.println("         _______|______|______                              ");
         System.out.println("                  |  |                                      ");
-        System.out.println("                  |  |____| |        ____                   ");
-        System.out.println("                  |  |______|     __|____|__                ");
-        System.out.println("            | |___|  |                ||                    ");
-        System.out.println("            |_____|  |             |__||                    ");
-        System.out.println("                  |  |                ||__|                 ");
-        System.out.println("                  |  |                ||                    ");
+        System.out.println("                  |  |____| |         ____                   ");
+        System.out.println("                  |  |______|      __|____|__                ");
+        System.out.println("            | |___|  |                 ||                    ");
+        System.out.println("            |_____|  |              |__||                    ");
+        System.out.println("                  |  |                 ||__|                 ");
+        System.out.println("                  |  |                 ||                    ");
         System.out.println();
     }
 
     public void iniciarJogo() {
-        exibirLogo();
-        escolherClasse();
+        boolean jogarNovamente = true;
+        while (jogarNovamente) {
+            exibirLogo();
+            escolherClasse();
 
-        List<Missao> fases = controller.getFases();
+            boolean jogadorPerdeuNaRodada = false;
 
-        for (Missao fase : fases) {
-            System.out.println("\n=== Nova Fase ===");
-            fase.mostrarInfo();
+            List<Missao> fases = controller.getFases();
 
-            for (Inimigo inimigo : fase.getInimigos()) {
-                System.out.println("\nUm inimigo apareceu: " + inimigo.getNome());
-                combate(inimigo);
+            for (Missao fase : fases) {
+                System.out.println("\n=== Nova Fase ===");
+                fase.mostrarInfo();
 
-                if (controller.jogadorDerrotado()) {
-                    System.out.println("\nQue pena! Você foi derrotado! Fim de jogo.");
-                    return;
+                for (Inimigo inimigo : fase.getInimigos()) {
+                    System.out.println("\nUm inimigo apareceu: " + inimigo.getNome());
+                    combate(inimigo);
+
+                    if (controller.jogadorDerrotado()) {
+                        System.out.println("\nQue pena! Você foi derrotado! Fim de jogo.");
+                        jogadorPerdeuNaRodada = true;
+                        break; // Sai do loop de inimigos
+                    }
                 }
+                // Se o jogador perdeu em algum inimigo, não precisa ir para as próximas fases nem mostrar "venceu todos os inimigos desta fase"
+                if (jogadorPerdeuNaRodada) {
+                    break; // Sai do loop de fases
+                }
+                // Esta mensagem só aparece se o jogador não foi derrotado na fase atual
+                System.out.println("\nVocê venceu todos os inimigos desta fase!");
             }
 
-            System.out.println("\nVocê venceu todos os inimigos desta fase!");
-        }
+            // A mensagem de "Parabéns! Você completou todas as fases!"
+            // só deve aparecer se o jogador NÃO foi derrotado durante o jogo
+            if (!jogadorPerdeuNaRodada) {
+                System.out.println("\nParabéns! Você completou todas as fases!");
+            }
 
-        System.out.println("\nParabéns! Você completou todas as fases!");
+            System.out.print("\nGostaria de jogar novamente? (S/N): ");
+            String escolhaRejogar = scanner.nextLine().trim().toUpperCase();
+
+            if (escolhaRejogar.equals("S")) {
+                controller.resetGame();
+            } else {
+                jogarNovamente = false;
+                System.out.println("\nObrigado por jogar! Até a próxima aventura no Velho Oeste.");
+            }
+        }
     }
 
     private void escolherClasse() {
@@ -69,7 +94,7 @@ public class GameSystem {
         System.out.println("2 - Fora da Lei");
 
         int escolha = scanner.nextInt();
-        scanner.nextLine(); // Consumir \n
+        scanner.nextLine();
 
         System.out.print("Digite seu nome: ");
         String nome = scanner.nextLine();
@@ -81,6 +106,7 @@ public class GameSystem {
         boolean emCombate = true;
 
         while (emCombate) {
+
             System.out.println("\nSua vez! Escolha a ação:");
             System.out.println("1 - Atacar");
             System.out.println("2 - Usar Habilidade 1");
@@ -88,6 +114,7 @@ public class GameSystem {
             System.out.println("4 - Usar Habilidade 3");
 
             int acao = scanner.nextInt();
+            scanner.nextLine();
 
             boolean acaoValida = controller.executarCombate(inimigo, acao);
             if (!acaoValida) continue;

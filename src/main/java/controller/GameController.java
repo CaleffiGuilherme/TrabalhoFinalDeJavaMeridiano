@@ -77,7 +77,13 @@ public class GameController {
         fases.add(mina);
     }
 
-
+    //novo métod0 para reiniciar o jogo
+    public void resetGame() {
+        this.player = null;
+        this.fases = new ArrayList<>();
+        inicializarFases();
+        System.out.println("\nO jogo foi reiniciado. Prepare-se para uma nova aventura!");
+    }
 
 
 
