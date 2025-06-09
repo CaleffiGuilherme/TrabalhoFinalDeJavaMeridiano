@@ -1,10 +1,10 @@
 ## Desenvolvido por:
 <ol>
   <li>
-    <a href="#">Bernardo Aurelio Almeida Rosa</a>
+    <a href="https://github.com/Berlimbe">Bernardo Aurelio Almeida Rosa</a>
   </li>
   <li>
-    <a href="#">Gabriel Cardoso Gonçalves</a>
+    <a href="https://github.com/gabrielgoncalves06">Gabriel Cardoso Gonçalves</a>
   </li>
   <li>
     <a href="https://github.com/CaleffiGuilherme">Guilherme Caleffi Pellens Pereira</a>
