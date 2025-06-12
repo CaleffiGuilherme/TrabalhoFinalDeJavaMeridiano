@@ -64,6 +64,32 @@ public class GameController {
         return true;
     }
 
+    // Salva o estado atual do jogo em um arquivo
+    public void salvarJogo(String file) {
+        if (player == null) { // Verifica se o jogador existe
+            System.out.println("Nenhum personagem foi criado ainda.");
+            return;
+        }
+
+        StringBuilder dados = new StringBuilder(); // String para armazenar os dados do jogo
+        dados.append("Nome: ").append(player.getNome()).append("\n"); // Nome do jogador
+        dados.append("Classe: ").append(player.getClass().getSimpleName()).append("\n"); // Classe do personagem
+        dados.append("Vida Atual: ").append(player.getVidaAtual()).append("\n"); // Vida atual
+        dados.append("Missões:\n");
+
+        for (Missao missao : fases) {
+            dados.append("- ").append(missao.getNome()).append(": ").append(missao.getDescricao()).append("\n"); // Lista as missões
+        }
+
+        try {
+            FileManager.salvarDados(SAVE_PATH, dados.toString()); // Salva os dados no arquivo
+            System.out.println("Jogo salvo com sucesso em: " + SAVE_PATH);
+        } catch (IOException e) {
+            System.err.println("Erro ao salvar o jogo: " + e.getMessage()); // Erro ao salvar
+        }
+    }
+
+
     public Personagem getPlayer() {
         return player;
     }
