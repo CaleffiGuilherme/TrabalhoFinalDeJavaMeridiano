@@ -16,18 +16,92 @@ import model.fase.MissaoFactory;
 
 public class GameController {
 
-
     private static final String SAVE_PATH = "src/main/java/database/save/save.txt";
 
     private Personagem player;
     private List<Missao> fases;
-    private GameSystem gameSystem;
+    private List<Consumivel> inventarioConsumiveis = new ArrayList<>();
 
-
-    public GameController(GameSystem gameSystem) {
-        this.gameSystem = gameSystem;
+    public GameController() {
         fases = new ArrayList<>();
         inicializarFases();
+    }
+
+    // INVENTÁRIO DE CONSUMÍVEIS
+    public List<Consumivel> getConsumiveis() {
+        return inventarioConsumiveis;
+    }
+
+    public void adicionarConsumivel(Consumivel consumivel) {
+        inventarioConsumiveis.add(consumivel);
+    }
+
+    public boolean usarConsumivel(int index) {
+        if (index < 0 || index >= inventarioConsumiveis.size()) {
+            System.out.println("Consumível inválido.");
+            return false;
+        }
+
+        Consumivel c = inventarioConsumiveis.get(index);
+        c.usar(player);
+        inventarioConsumiveis.remove(index);
+        System.out.println("Você usou: " + c.getNome());
+        return true;
+    }
+
+    public void salvarJogo(String file) {
+        if (player == null) {
+            System.out.println("Nenhum personagem foi criado ainda.");
+            return;
+        }
+
+        StringBuilder dados = new StringBuilder();
+        dados.append("Nome: ").append(player.getNome()).append("\n");
+        dados.append("Classe: ").append(player.getClass().getSimpleName()).append("\n");
+        dados.append("Vida Atual: ").append(player.getVidaAtual()).append("\n");
+        dados.append("Missões:\n");
+
+        for (Missao missao : fases) {
+            dados.append("- ").append(missao.getNome()).append(": ").append(missao.getDescricao()).append("\n");
+        }
+
+        try {
+            FileManager.salvarDados(SAVE_PATH, dados.toString());
+            System.out.println("Jogo salvo com sucesso em: " + SAVE_PATH);
+        } catch (IOException e) {
+            System.err.println("Erro ao salvar o jogo: " + e.getMessage());
+        }
+    }
+
+    public boolean carregarJogo(String file) {
+        try {
+            File arquivo = new File(SAVE_PATH);
+            if (!arquivo.exists()) {
+                System.err.println("Arquivo de salvamento não encontrado: " + SAVE_PATH);
+                return false;
+            }
+            String conteudo = FileManager.carregarDados(SAVE_PATH);
+            String[] linhas = conteudo.split("\n");
+
+            String nome = linhas[0].split(": ")[1];
+            String classe = linhas[1].split(": ")[1];
+            int vida = Integer.parseInt(linhas[2].split(": ")[1]);
+
+            if (classe.equals("Cowboy")) {
+                player = new Cowboy(nome);
+            } else {
+                player = new ForaDaLei(nome);
+            }
+            player.setVidaAtual(vida);
+
+            this.fases = MissaoFactory.criarMissoesPadrao();
+
+            System.out.println("Jogo carregado com sucesso!");
+            return true;
+        } catch (Exception e) {
+            System.err.println("Erro ao carregar o jogo: " + e.getMessage());
+            return false;
+        }
     }
 
     public void criarPersonagem(String nome, int escolhaClasse) {
@@ -36,32 +110,8 @@ public class GameController {
         } else {
             player = new ForaDaLei(nome);
         }
-    }
-    // Lista que armazena os consumíveis coletados pelo jogador
-    private List<Consumivel> inventarioConsumiveis = new ArrayList<>();
 
-    // Retorna a lista de consumíveis disponíveis no inventário
-    public List<Consumivel> getConsumiveis() {
-        return inventarioConsumiveis;
-    }
-
-    // Adiciona um consumível ao inventário do jogador
-    public void adicionarConsumivel(Consumivel consumivel) {
-        inventarioConsumiveis.add(consumivel);
-    }
-
-    // Usa um consumível do inventário com base no índice fornecido
-    public boolean usarConsumivel(int index) {
-        if (index < 0 || index >= inventarioConsumiveis.size()) { // Verifica se o índice é válido
-            System.out.println("Consumível inválido.");
-            return false;
-        }
-
-        Consumivel c = inventarioConsumiveis.get(index); // Obtém o consumível
-        c.usar(player); // Aplica o efeito do consumível no jogador
-        inventarioConsumiveis.remove(index); // Remove o consumível do inventário após o uso
-        System.out.println("Você usou: " + c.getNome());
-        return true;
+        salvarJogo(SAVE_PATH);
     }
 
     public Personagem getPlayer() {
@@ -73,9 +123,6 @@ public class GameController {
     }
 
     public boolean executarCombate(Inimigo inimigo, int escolha) {
-        if (this.player != null && inimigo != null) {
-            gameSystem.displayBattleStatus(this.player, inimigo);
-        }
         switch (escolha) {
             case 1 -> player.atacar(inimigo);
             case 2 -> player.usarHabilidade1(inimigo);
@@ -86,49 +133,30 @@ public class GameController {
                 return false;
             }
         }
-        if (this.player != null && inimigo != null) {
-            gameSystem.displayBattleStatus(this.player, inimigo);
-        }
         return true;
     }
 
     public void inimigoAtaca(Inimigo inimigo) {
         inimigo.atacar(player);
-        gameSystem.displayBattleStatus(this.player, inimigo);
     }
 
     public boolean jogadorDerrotado() {
-        return this.player != null && this.player.getVidaAtual() <= 0;
+        return player.getVidaAtual() <= 0;
     }
 
     public boolean inimigoDerrotado(Inimigo inimigo) {
-        return inimigo != null && inimigo.getVidaAtual() <= 0;
+        return inimigo.getVidaAtual() <= 0;
     }
 
     private void inicializarFases() {
-        Missao saloon = new Missao("Saloon Abandonado", "Um velho bar cheio de teias de aranha.");
-        saloon.adicionarInimigo(new model.inimigo.Pistoleiro("Pistoleiro bêbado"));
-        saloon.adicionarItem(new Consumivel("Whisky", "Recupera 20 de vida", 1, Efeito.CURA, 20));
-
-        Missao mina = new Missao("Mina Escura", "Uma mina subterrânea, o ar é pesado.");
-        mina.adicionarInimigo(new model.inimigo.Pistoleiro("Pistoleiro sombrio"));
-        mina.adicionarInimigo(new model.inimigo.Pistoleiro("Pistoleiro das cavernas"));
-        mina.adicionarItem(new Consumivel("Dinamite", "Aumenta ataque em 10", 1, Efeito.AUMENTO_ATAQUE, 10));
-
-        fases.add(saloon);
-        fases.add(mina);
+        this.fases = MissaoFactory.criarMissoesPadrao();
     }
 
-    //exibi os atributos de um player e um inimigo especifico
-
-    //novo métod0 para reiniciar o jogo
     public void resetGame() {
         this.player = null;
         this.fases = new ArrayList<>();
+        this.inventarioConsumiveis.clear();
         inicializarFases();
         System.out.println("\nO jogo foi reiniciado. Prepare-se para uma nova aventura!");
     }
-
-
-
 }

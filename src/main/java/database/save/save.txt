@@ -1,0 +1,10 @@
+Nome: Gui
+Classe: Cowboy
+Vida Atual: 40
+Missões:
+- Saloon de Valentine: Um bar movimentado com um bêbado muito incoveniente.
+- Assalto no Saloon: Após sua briga com o bêbado, um bandido tenta te assaltar
+- Confronto na cidade: Você se depara com um pistoleiro que te desafia para um duelo no meio de Valentine
+- Caçado: Um caçador de recompensas atravessou o país para te encontrar e não vai voltar sem seu prêmio
+- Acerto de contas: Você entra em confronto com um xerife corrupto
+- Fim do tormento: Você se depara com um Pé Grande nas redondezas de Valentine

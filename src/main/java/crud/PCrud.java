@@ -1,5 +1,7 @@
 package crud;
 
+import model.player.Cowboy;
+import model.player.ForaDaLei;
 import model.player.Personagem;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -34,28 +36,18 @@ public class PCrud {
         System.out.println("Nome do personagem: ");
         String nome = scanner.nextLine();
 
-        System.out.println("Vida máxima: ");
-        int vidaMaxima = scanner.nextInt();
+        System.out.println("\n1 - Cowboy\n");
+        System.out.println("2 - Fora da Lei");
 
-        System.out.println("Ataque: ");
-        int ataque = scanner.nextInt();
-
-        System.out.println("Defesa: ");
-        int defesa = scanner.nextInt();
-
-        System.out.println("Esquiva: ");
-        int esquiva = scanner.nextInt();
-
-        System.out.println("Precisão: ");
-        int precisao = scanner.nextInt();
-        scanner.nextLine();
-
-        System.out.println("Habilidades: ");
-        String[] habilidades = new String[3];
-        for (int i = 0; i < habilidades.length; i++) {
-            habilidades[i] = scanner.nextLine();
+        if (scanner.nextLine().equals("1")) {
+            Personagem novoPersonagem = new Cowboy(nome);
+            personagens.add(novoPersonagem);
+            System.out.println("Personagem criado com sucesso!");
+        } else {
+            Personagem novoPersonagem = new ForaDaLei(nome);
+            personagens.add(novoPersonagem);
+            System.out.println("Personagem criado com sucesso!");
         }
-
     }
 
     public void listar() {
@@ -80,34 +72,9 @@ public class PCrud {
 
             System.out.println("Novo nome: ");
             p.setNome(scanner.nextLine());
-
-            System.out.println("Nova Vida máxima: ");
-            p.setVidaMaxima(scanner.nextInt());
-
-            System.out.println("Novo Ataque: ");
-            p.setAtaque(scanner.nextInt());
-
-            System.out.println("Nova Defesa: ");
-            p.setDefesa(scanner.nextInt());
-
-            System.out.println("Nova Esquiva: ");
-            p.setEsquiva(scanner.nextInt());
-
-            System.out.println("Nova Precisão: ");
-            p.setPrecisao(scanner.nextInt());
-            scanner.nextLine();
-
-            String[] novasHabilidades = new String[3];
-            System.out.println("Novas habilidades:");
-            for (int j = 0; j < 3; j++) {
-                System.out.print("Habilidade " + (j + 1) + ": ");
-                novasHabilidades[j] = scanner.nextLine();
-            }
-            p.setHabilidades(novasHabilidades);
-
         }
     }
-        
+
     public void deletar() {
         listar();
         System.out.println("Digite o índice do personagem para deletar: ");
