@@ -1,6 +1,7 @@
 package controller;
 
-
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,18 +9,20 @@ import model.player.Personagem;
 import model.player.Cowboy;
 import model.player.ForaDaLei;
 import model.inimigo.Inimigo;
-import model.inimigo.Pistoleiro;
-import model.inimigo.Bandido;
 import model.Missao;
 import model.Consumivel;
-import model.Efeito;
-import view.GameSystem;
+import database.FileManager;
+import model.fase.MissaoFactory;
 
 public class GameController {
+
+
+    private static final String SAVE_PATH = "src/main/java/database/save/save.txt";
 
     private Personagem player;
     private List<Missao> fases;
     private GameSystem gameSystem;
+
 
     public GameController(GameSystem gameSystem) {
         this.gameSystem = gameSystem;
@@ -33,6 +36,32 @@ public class GameController {
         } else {
             player = new ForaDaLei(nome);
         }
+    }
+    // Lista que armazena os consumíveis coletados pelo jogador
+    private List<Consumivel> inventarioConsumiveis = new ArrayList<>();
+
+    // Retorna a lista de consumíveis disponíveis no inventário
+    public List<Consumivel> getConsumiveis() {
+        return inventarioConsumiveis;
+    }
+
+    // Adiciona um consumível ao inventário do jogador
+    public void adicionarConsumivel(Consumivel consumivel) {
+        inventarioConsumiveis.add(consumivel);
+    }
+
+    // Usa um consumível do inventário com base no índice fornecido
+    public boolean usarConsumivel(int index) {
+        if (index < 0 || index >= inventarioConsumiveis.size()) { // Verifica se o índice é válido
+            System.out.println("Consumível inválido.");
+            return false;
+        }
+
+        Consumivel c = inventarioConsumiveis.get(index); // Obtém o consumível
+        c.usar(player); // Aplica o efeito do consumível no jogador
+        inventarioConsumiveis.remove(index); // Remove o consumível do inventário após o uso
+        System.out.println("Você usou: " + c.getNome());
+        return true;
     }
 
     public Personagem getPlayer() {
