@@ -179,6 +179,23 @@ public class GameController {
         fases.add(mina);
     }
 
+    // Modificado: Ao criar o personagem, o jogo já é salvo automaticamente
+    public void criarPersonagem(String nome, int escolhaClasse) {
+        if (escolhaClasse == 1) {
+            player = new Cowboy(nome);
+        } else {
+            player = new ForaDaLei(nome);
+        }
+
+        salvarJogo(SAVE_PATH); // Salva o jogo imediatamente após criação do personagem
+    }
+
+    // Modificado: Agora usa MissaoFactory para criar as fases
+    private void inicializarFases() {
+        this.fases = MissaoFactory.criarMissoesPadrao(); // Usa uma fábrica para instanciar as fases
+    }
+
+
     //exibi os atributos de um player e um inimigo especifico
 
     //novo métod0 para reiniciar o jogo
