@@ -27,5 +27,3 @@ Baixar o java, javac na versão 24 e executar pelo terminal de alguma IDE (recom
 # USO DO CHATGPT
 
 O ChatGpt foi usado para nos dar ideias, orientar e auxiliar em partes do código onde estavámos perdidos.
-
-# REFERÊNCIAS E RECURSOS
