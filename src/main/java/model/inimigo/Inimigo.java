@@ -32,7 +32,8 @@ public abstract class Inimigo implements Atacavel, Habilidade {
         int dano = this.ataque - alvo.getDefesa();
         if (dano < 0) dano = 0;
         alvo.receberDano(dano);
-        System.out.println(this.nome + " atacou " + dano + " de dano.");
+        System.out.println(this.nome + " atacou " + alvo.getNome() + " causando " + dano + " de dano.");
+
     }
 
     @Override

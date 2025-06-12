@@ -16,6 +16,7 @@ public class PCrud {
             System.out.println("2. Listar");
             System.out.println("3. Atualizar");
             System.out.println("4. Deletar");
+            System.out.println("0. Sair");
             opcao = scanner.nextInt();
             scanner.nextLine();
 
@@ -24,6 +25,7 @@ public class PCrud {
                 case 2 -> listar();
                 case 3 -> atualizar();
                 case 4 -> deletar();
+                case 0 -> sair();
             }
         } while (opcao != 0);
     }
@@ -48,6 +50,7 @@ public class PCrud {
         int precisao = scanner.nextInt();
         scanner.nextLine();
 
+        System.out.println("Habilidades: ");
         String[] habilidades = new String[3];
         for (int i = 0; i < habilidades.length; i++) {
             habilidades[i] = scanner.nextLine();
@@ -115,6 +118,10 @@ public class PCrud {
         } else {
             System.out.println("Índice inválido.");
         }
+    }
+
+    public void sair() {
+        System.out.println("Saindo do menu...");
     }
 
 }

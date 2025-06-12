@@ -16,7 +16,7 @@ public class ACrud {
             System.out.println("2 - Lista");
             System.out.println("3 - Atualizar");
             System.out.println("4 - Deletar");
-            System.out.println("5 - Sair");
+            System.out.println("0 - Sair");
             opcao = scanner.nextInt();
             scanner.nextLine();
 
@@ -25,6 +25,7 @@ public class ACrud {
                 case 2 -> listar();
                 case 3 -> atualizar();
                 case 4 -> deletar();
+                case 0 -> sair();
             }
         } while(opcao != 0);
     }
@@ -83,5 +84,10 @@ public class ACrud {
             System.out.println("Índice inválido.");
         }
     }
+
+    public void sair() {
+        System.out.println("Saindo do menu...");
+    }
+
 
 }

@@ -22,10 +22,12 @@ public class Cowboy extends Personagem {
     double chance = Math.random() * 100;
 
     public void atacar(Atacavel alvo) {
+        double chance = Math.random() * 100;
+
         if (chance <= this.precisao) {
             int dano = this.ataque;
 
-            if (Math.random() <= this.precisao) {
+            if (Math.random() < 0.1) {
                 dano *= 2;
                 System.out.println("CRÍTICO!!");
             }
