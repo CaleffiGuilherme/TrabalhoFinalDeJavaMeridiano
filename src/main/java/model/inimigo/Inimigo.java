@@ -33,6 +33,7 @@ public abstract class Inimigo implements Atacavel, Habilidade {
         if (dano < 0) dano = 0;
         alvo.receberDano(dano);
         System.out.println(this.nome + " atacou " + alvo.getNome() + " causando " + dano + " de dano.");
+
     }
 
     @Override
@@ -65,6 +66,7 @@ public abstract class Inimigo implements Atacavel, Habilidade {
     public int getDefesa() { return defesa; }
     public int getVidaAtual() { return vidaAtual; }
     @Override
-    public int getPrecisao() {return precisao;}
-    public Object getAtaque() {return ataque; }
+    public int getPrecisao() {return precisao; }
+    public int getAtaque() {return ataque; }
+
 }

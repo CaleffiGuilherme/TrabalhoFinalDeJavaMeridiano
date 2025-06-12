@@ -1,8 +1,17 @@
 package view;
 
 import controller.GameController;
+import model.player.Cowboy;
+import model.player.ForaDaLei;
 import model.inimigo.Inimigo;
+import model.inimigo.Bandido;
+import model.inimigo.Bebado;
+import model.inimigo.Pistoleiro;
+import model.inimigo.CacadorDeRecompensa;
+import model.inimigo.boss.PeGrande;
+import model.inimigo.boss.Xerife;
 import model.Missao;
+import model.player.Personagem;
 
 import java.util.List;
 import java.util.Scanner;
@@ -14,7 +23,7 @@ public class GameSystem {
 
     public GameSystem() {
         scanner = new Scanner(System.in);
-        controller = new GameController();
+        controller = new GameController(this);
     }
 
     public void exibirLogo() {
@@ -54,24 +63,21 @@ public class GameSystem {
 
                 for (Inimigo inimigo : fase.getInimigos()) {
                     System.out.println("\nUm inimigo apareceu: " + inimigo.getNome());
+                    displayEnemyStats(inimigo);
                     combate(inimigo);
 
                     if (controller.jogadorDerrotado()) {
                         System.out.println("\nQue pena! Você foi derrotado! Fim de jogo.");
                         jogadorPerdeuNaRodada = true;
-                        break; // Sai do loop de inimigos
+                        break;
                     }
                 }
-                // Se o jogador perdeu em algum inimigo, não precisa ir para as próximas fases nem mostrar "venceu todos os inimigos desta fase"
                 if (jogadorPerdeuNaRodada) {
-                    break; // Sai do loop de fases
+                    break;
                 }
-                // Esta mensagem só aparece se o jogador não foi derrotado na fase atual
                 System.out.println("\nVocê venceu todos os inimigos desta fase!");
             }
 
-            // A mensagem de "Parabéns! Você completou todas as fases!"
-            // só deve aparecer se o jogador NÃO foi derrotado durante o jogo
             if (!jogadorPerdeuNaRodada) {
                 System.out.println("\nParabéns! Você completou todas as fases!");
             }
@@ -86,6 +92,96 @@ public class GameSystem {
                 System.out.println("\nObrigado por jogar! Até a próxima aventura no Velho Oeste.");
             }
         }
+        scanner.close();
+    }
+    public void displayPlayerStats(Personagem player) {//não reconhce o Personagem
+        System.out.println("\n███████████████████████████████████████████████");
+        System.out.println("█                   JUSTICEIRO                █");
+        System.out.println("███████████████████████████████████████████████");
+
+        if (player != null) {
+            System.out.printf("█ Nome: %-37s █\n", player.getNome());
+            System.out.printf("█ Vida: %-37d █\n", player.getVidaAtual());
+            System.out.printf("█ Ataque: %-35d █\n", player.getAtaque());
+
+            // Bloco para atributos específicos de ForaDaLei ou Cowboy
+            if (player instanceof ForaDaLei) {
+                ForaDaLei foraDaLei = (ForaDaLei) player;
+                System.out.println("\n");
+                System.out.println("  +------------------------------------------------+ ");
+                System.out.println("  |    W A N T E D  --  D E A D  O R  A L I V E    | ");
+                System.out.println("  |                                                | ");
+                System.out.println("  |  --------------------------------------------  | ");
+                System.out.println("  | |            F O R A  D A  L E I             | | ");
+                System.out.println("  | |   A T I V I D A D E : Assassino em série   | | ");
+                System.out.println("  | |   P R E C A U Ç Â O : Armado e Perigoso    | | ");
+                System.out.println("  |  --------------------------------------------  | ");
+                System.out.println("  |     R E C O M P E N S A : $ 5.000.000.000      | ");
+                System.out.println("  +------------------------------------------------+ ");
+                System.out.println("\n");
+            } else if (player instanceof Cowboy) {
+                Cowboy cowboy = (Cowboy) player;
+                System.out.println("█ Tipo: Cowboy                                █");
+                System.out.printf("█ Precisão: %-33s █\n", cowboy.getPrecisao());
+            } else {
+                System.out.println("█ Tipo: Indefinido (Player Genérico)  █");
+            }
+        } else {
+            System.out.println("█ Erro: Personagem do jogador não encontrado! █");
+        }
+        System.out.println("███████████████████████████████████████████████");
+    }
+
+    public void displayEnemyStats(Inimigo enemy) {
+        System.out.println("\n▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓");
+        System.out.println("▓                    INIMIGO                  ▓");
+        System.out.println("▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓");
+        if (enemy != null) {
+            System.out.printf("▓ Nome: %-37s ▓\n", enemy.getNome());
+            System.out.printf("▓ Vida: %-37d ▓\n", enemy.getVidaAtual());
+            System.out.printf("▓ Ataque: %-35d ▓\n", enemy.getAtaque());
+
+            // Bloco para atributos específicos de tipos de inimigos ou Bosses
+            if (enemy instanceof Pistoleiro) {
+                System.out.println("▓ Tipo: Pistoleiro                            ▓");
+            } else if (enemy instanceof Bandido) {
+                System.out.println("▓ Tipo: Bandido                               ▓");
+            } else if (enemy instanceof Bebado) {
+                System.out.println("▓ Tipo: Bêbado                                ▓");
+            } else if (enemy instanceof CacadorDeRecompensa) {
+                System.out.println("▓ Tipo: Caçador de Recompensa                 ▓");
+            } else if (enemy instanceof PeGrande) {
+                System.out.println("▓ Tipo: BOSS - Pé Grande                      ▓");
+            } else if (enemy instanceof Xerife) {
+                System.out.println("▓ Tipo: BOSS - Xerife                         ▓");
+            } else {
+                System.out.println("▓ Tipo: Desconhecido (Inimigo Genérico)       ▓");
+            }
+        } else {
+            System.out.println("▓ Erro: Inimigo não encontrado!                   ▓");
+        }
+        System.out.println("▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓");
+    }
+
+    public void displayBattleStatus(Personagem player, Inimigo enemy) {
+        System.out.println("\n╔══════════════════════════════════════════╗");
+        System.out.println("║            STATUS DA BATALHA             ║");
+        System.out.println("╠══════════════════════════════════════════╣");
+        System.out.printf("   Justiceiro: %-15s Vida: %-10d \n", player.getNome(), player.getVidaAtual());
+        System.out.printf("   Inimigo: %-13s Vida: %-10d    \n", enemy.getNome(), enemy.getVidaAtual());
+        System.out.println("╚══════════════════════════════════════════╝");
+    }
+
+    public void clearConsole() {
+        try {
+            final String os = System.getProperty("os.name");
+            if (os.contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                System.out.print("\033[H\033[2J");
+                System.out.flush();
+            }
+        } catch (final Exception e) { /* Ignora o erro e continua */ }
     }
 
     private void escolherClasse() {
@@ -100,7 +196,10 @@ public class GameSystem {
         String nome = scanner.nextLine();
 
         controller.criarPersonagem(nome, escolha);
+
+        displayPlayerStats(controller.getPlayer());
     }
+
 
     private void combate(Inimigo inimigo) {
         boolean emCombate = true;
@@ -120,7 +219,13 @@ public class GameSystem {
             if (!acaoValida) continue;
 
             if (controller.inimigoDerrotado(inimigo)) {
-                System.out.println("\nVocê derrotou " + inimigo.getNome() + "!");
+                System.out.println("\n");
+                System.out.println("   ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄   ");
+                System.out.println("   ███                                     ███   ");
+                System.out.println("   ███  PARABÉNS, VOCÊ VENCEU O COMBATE!   ███   ");
+                System.out.println("   ███ Você derrotou o " + inimigo.getNome() + "!  ███   ");
+                System.out.println("   ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀   ");
+                System.out.println("\n");
                 emCombate = false;
                 continue;
             }
@@ -130,6 +235,12 @@ public class GameSystem {
 
             if (controller.jogadorDerrotado()) {
                 System.out.println("\nVocê foi derrotado!");
+                System.out.println("\n");
+                System.out.println("   .------------------------------------.   ");
+                System.out.println("   |   O Velho Oeste te engoliu...      |   ");
+                System.out.println("   |       Mas a lenda pode recomeçar!  |   ");
+                System.out.println("   '------------------------------------'   ");
+                System.out.println("\n");
                 emCombate = false;
             }
         }
