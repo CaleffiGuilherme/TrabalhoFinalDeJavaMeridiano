@@ -3,20 +3,26 @@ package controller;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import model.player.Personagem;
 import model.player.Cowboy;
 import model.player.ForaDaLei;
 import model.inimigo.Inimigo;
+import model.inimigo.Pistoleiro;
+import model.inimigo.Bandido;
 import model.Missao;
 import model.Consumivel;
 import model.Efeito;
+import view.GameSystem;
 
 public class GameController {
 
     private Personagem player;
     private List<Missao> fases;
+    private GameSystem gameSystem;
 
-    public GameController() {
+    public GameController(GameSystem gameSystem) {
+        this.gameSystem = gameSystem;
         fases = new ArrayList<>();
         inicializarFases();
     }
@@ -38,6 +44,9 @@ public class GameController {
     }
 
     public boolean executarCombate(Inimigo inimigo, int escolha) {
+        if (this.player != null && inimigo != null) {
+            gameSystem.displayBattleStatus(this.player, inimigo);
+        }
         switch (escolha) {
             case 1 -> player.atacar(inimigo);
             case 2 -> player.usarHabilidade1(inimigo);
@@ -48,19 +57,23 @@ public class GameController {
                 return false;
             }
         }
+        if (this.player != null && inimigo != null) {
+            gameSystem.displayBattleStatus(this.player, inimigo);
+        }
         return true;
     }
 
     public void inimigoAtaca(Inimigo inimigo) {
         inimigo.atacar(player);
+        gameSystem.displayBattleStatus(this.player, inimigo);
     }
 
     public boolean jogadorDerrotado() {
-        return player.getVidaAtual() <= 0;
+        return this.player != null && this.player.getVidaAtual() <= 0;
     }
 
     public boolean inimigoDerrotado(Inimigo inimigo) {
-        return inimigo.getVidaAtual() <= 0;
+        return inimigo != null && inimigo.getVidaAtual() <= 0;
     }
 
     private void inicializarFases() {
@@ -76,6 +89,8 @@ public class GameController {
         fases.add(saloon);
         fases.add(mina);
     }
+
+    //exibi os atributos de um player e um inimigo especifico
 
     //novo métod0 para reiniciar o jogo
     public void resetGame() {
