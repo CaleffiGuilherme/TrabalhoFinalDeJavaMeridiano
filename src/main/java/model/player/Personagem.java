@@ -96,6 +96,8 @@ public abstract class Personagem implements Atacavel, Habilidade {
 
         public void setNome(String nome) {this.nome = nome; }
 
+        public void setVidaAtual(int vidaAtual) {this.vidaAtual = vidaAtual; }
+
         public void setVidaMaxima(int vidaMaxima) { this.vidaMaxima = vidaMaxima; }
 
         public void setAtaque(int ataque) { this.ataque = ataque; }

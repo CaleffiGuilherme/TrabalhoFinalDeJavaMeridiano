@@ -6,8 +6,8 @@ import model.Arma;
 public class ForaDaLei extends Personagem {
     public ForaDaLei(String nome) {
         super(nome);
-        this.vidaAtual = 30;
-        this.vidaMaxima = 30;
+        this.vidaAtual = 800;
+        this.vidaMaxima = 800;
         this.ataque = 25;
         this.defesa = 10;
         this.esquiva = 25;
@@ -22,10 +22,12 @@ public class ForaDaLei extends Personagem {
     double chance = Math.random() * 100;
 
     public void atacar(Atacavel alvo) {
+        double chance = Math.random() * 100;
+
         if (chance <= this.precisao) {
             int dano = this.ataque;
 
-            if (Math.random() <= this.precisao) {
+            if (Math.random() < 0.1) {
                 dano *= 2;
                 System.out.println("CRÍTICO!!");
             }
