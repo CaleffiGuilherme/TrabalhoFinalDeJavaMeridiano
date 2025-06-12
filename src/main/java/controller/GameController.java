@@ -198,14 +198,14 @@ public class GameController {
 
     //exibi os atributos de um player e um inimigo especifico
 
-    //novo métod0 para reiniciar o jogo
+    // Modificado: Limpa também o inventário ao resetar o jogo
     public void resetGame() {
-        this.player = null;
-        this.fases = new ArrayList<>();
-        inicializarFases();
+        this.player = null; // Reseta o jogador
+        this.fases = new ArrayList<>(); // Limpa fases
+        this.inventarioConsumiveis.clear(); // Limpa o inventário de consumíveis
+        inicializarFases(); // Recria as fases
         System.out.println("\nO jogo foi reiniciado. Prepare-se para uma nova aventura!");
     }
-
 
 
 }
