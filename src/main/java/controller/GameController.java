@@ -123,6 +123,40 @@ public class GameController {
         gameSystem.displayBattleStatus(this.player, inimigo);
     }
 
+    // Carrega os dados salvos do jogo de um arquivo
+    public boolean carregarJogo(String file) {
+        try {
+            File arquivo = new File(SAVE_PATH); // Abre o arquivo de save
+            if (!arquivo.exists()) { // Verifica se o arquivo existe
+                System.err.println("Arquivo de salvamento não encontrado: " + SAVE_PATH);
+                return false;
+            }
+
+            String conteudo = FileManager.carregarDados(SAVE_PATH); // Lê os dados salvos
+            String[] linhas = conteudo.split("\n"); // Separa por linhas
+
+            String nome = linhas[0].split(": ")[1]; // Extrai nome do jogador
+            String classe = linhas[1].split(": ")[1]; // Extrai classe
+            int vida = Integer.parseInt(linhas[2].split(": ")[1]); // Extrai vida atual
+
+            if (classe.equals("Cowboy")) {
+                player = new Cowboy(nome); // Cria Cowboy se for a classe salva
+            } else {
+                player = new ForaDaLei(nome); // Cria ForaDaLei se for a classe salva
+            }
+            player.setVidaAtual(vida); // Define a vida do jogador
+
+            this.fases = MissaoFactory.criarMissoesPadrao(); // Recria as missões com base na fábrica
+
+            System.out.println("Jogo carregado com sucesso!");
+            return true;
+        } catch (Exception e) {
+            System.err.println("Erro ao carregar o jogo: " + e.getMessage()); // Mostra erro ao carregar
+            return false;
+        }
+    }
+
+
     public boolean jogadorDerrotado() {
         return this.player != null && this.player.getVidaAtual() <= 0;
     }
